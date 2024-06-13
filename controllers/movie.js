@@ -1,4 +1,5 @@
 import { MovieModel } from "../models/movie.js";
+import { validateMovie, validatePartialMovie } from "../schema/movies.js";
 
 export class MovieController {
 	static async getAll(req, res) {
@@ -16,33 +17,36 @@ export class MovieController {
 
 	static async create(req, res) {
 		const result = validateMovie(req.body);
-		const newMovie = await MovieModel.create({ input: result.data });
+
 		if (!result.success) {
+			// 422 Unprocessable Entity
 			return res.status(400).json({ error: JSON.parse(result.error.message) });
 		}
 
-		movies.push(newMovie);
-		return res.status(201).json(newMovie);
+		const newMovie = await MovieModel.create({ input: result.data });
+
+		res.status(201).json(newMovie);
 	}
 
-	static async updateById(req, res) {
+	static async update(req, res) {
 		const result = validatePartialMovie(req.body);
 		if (!result.success) {
 			return res.status(400).json({ error: JSON.parse(result.error.message) });
 		}
 		const { id } = req.params;
-		const updatedMovie = await MovieModel.updateById({ id, input: result.data });
+		const updatedMovie = await MovieModel.update({ id, input: result.data });
 		return res.json(updatedMovie);
 	}
 
-	static async deleteById(req, res) {
+	static async delete(req, res) {
 		const { id } = req.params;
-		const result = await MovieModel.deleteById({ id });
-		const movieIndex = movies.findIndex((movie) => movie.id === id);
-		if (movieIndex === -1) {
+
+		const result = await MovieModel.delete({ id });
+
+		if (result === false) {
 			return res.status(404).json({ message: "Movie not found" });
 		}
-		movies.splice(movieIndex, 1);
-		return res.status(204).json({ message: "Movie deleted" });
+
+		return res.json({ message: "Movie deleted" });
 	}
 }

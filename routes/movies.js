@@ -13,7 +13,7 @@ moviesRouter.get("/:id", MovieController.getById);
 moviesRouter.post("/", MovieController.create);
 
 // PATCH /movies/:id
-moviesRouter.patch("/:id", MovieController.updateById);
+moviesRouter.patch("/:id", MovieController.update);
 
 // DELETE /movies/:id
-moviesRouter.delete("/:id", MovieController.deleteById);
+moviesRouter.delete("/:id", MovieController.delete);
