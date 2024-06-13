@@ -23,12 +23,12 @@ const PORT = process.env.PORT ?? 3000;
 
 // método GET que devuelve un objeto JSON
 app.get("/", (req, res) => {
-  res.json({ message: "API deployed successfully" });
+	res.json({ message: "API deployed successfully" });
 });
 
 app.use("/movies", moviesRouter);
 
 // ponemos el servidor a escuchar
 app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+	console.log(`Server is running on http://localhost:${PORT}`);
 });
