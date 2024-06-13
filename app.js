@@ -13,7 +13,7 @@ const PORT = process.env.PORT ?? 3000;
 
 // método GET que devuelve un objeto JSON
 app.get("/", (req, res) => {
-  res.json({ message: "Hello World!" });
+  res.json({ message: "API deployed successfully" });
 });
 
 // método GET que devuelve una lista de películas o por género si recibe el param
