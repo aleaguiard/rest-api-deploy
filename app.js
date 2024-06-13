@@ -1,13 +1,28 @@
-const express = require("express"); // require --> commonjs
-const movies = require("./movies.json");
-const crypto = require("node:crypto");
-const z = require("zod");
-const cors = require("cors");
-const { validateMovie, validatePartialMovie } = require("./schema/movies");
+import express, { json } from "express"; // require --> commonjs | import --> modules
+
+// import usando 'with' aunque está en experimental stage 1
+// https://nodejs.org/api/esm.html#esm_import_using_with_statement
+// import movies from "./movies.json" with { type: "json" };
+
+// otro modo de importar en ESModules
+// import fs from "node:fs";
+// const movies = JSON.parse(fs.readFileSync("./movies.json", "utf8"));
+
+// RECOMENDADO -->
+// import { createRequire } from "node:module";
+// const require = createRequire(import.meta.url);
+// const movies = require("./movies.json");
+
+import { readJson } from "./utils.js";
+const movies = readJson("./movies.json");
+
+import { randomUUID } from "node:crypto";
+import cors from "cors";
+import { validateMovie, validatePartialMovie } from "./schema/movies.js";
 
 const app = express();
 app.disable("x-powered-by"); // remove X-Powered-By header
-app.use(express.json()); // parse JSON body
+app.use(json()); // parse JSON body
 app.use(cors());
 const PORT = process.env.PORT ?? 3000;
 
@@ -45,7 +60,7 @@ app.post("/movies", (req, res) => {
   }
 
   const newMovie = {
-    id: crypto.randomUUID(), // genera un UUID
+    id: randomUUID(), // genera un UUID
     ...result.data,
   };
 
