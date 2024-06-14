@@ -26,9 +26,10 @@ Content-Type: application/json
 }
 
 ### actualizar una pelicula usando el PATCH
-PATCH http://localhost:3000/movies/24d9d1cd-2329-467a-bd53-230421a43fd3
+PATCH http://localhost:3000/movies/122ac401-907e-4ac9-97e7-8a74bd7c937d
 Content-Type: application/json
 
 {
-  "year": 2000
+  "year": 2019,
+  "director": "Alejandro"
 }
